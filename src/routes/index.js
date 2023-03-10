@@ -4,6 +4,7 @@ import NoMatch from 'components/Error/404';
 import appRoutes from './appRoutes';
 import AppPaths from './appPaths';
 import LoadingScreen from 'components/Loading/LoadingScreen';
+import {Navigate} from "react-router-dom";
 
 export function renderRoutes(routes = []) {
   return (
@@ -36,11 +37,7 @@ export function renderRoutes(routes = []) {
             />
           );
         })}
-        <Route path="*" element={
-          <div className="container-fluid">
-            <NoMatch />
-          </div>
-        } />
+        <Route path="*" element={<Navigate to='/employee' />} />
       </Routes>
     </Suspense>
   );

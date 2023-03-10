@@ -19,20 +19,18 @@ import {
 
 function* login({ payload }) {
   try {
-    // xu li login
-    // const { data: user, token } = yield call(ApiAuth.login, payload);
     yield put({
       type: LOGIN_SUCCESS,
-      // payload: { token, user }
+      payload: {
+        isLogin: true,
+        user: payload
+      }
     });
 
   } catch (error) {
-
-    // xu li eror
-
     yield put({
       type: LOGIN_FAILED,
-      payload: error?.response?.data || []
+      payload: []
     });
   }
 }
@@ -55,18 +53,17 @@ function* login({ payload }) {
 //   }
 // }
 //
-// function* getProfile() {
-//   try {
-//     const {data: user} = yield call(ApiAuth.profile);
-//     yield put({ type: GET_PROFILE_SUCCESS, payload: user });
-//   } catch (error) {
-//     yield put({ type: LOGOUT_REQUEST, payload: null });
-//   }
-// }
+function* getProfile({payload}) {
+  try {
+    yield put({ type: GET_PROFILE_SUCCESS, payload });
+  } catch (error) {
+    yield put({ type: LOGOUT_REQUEST, payload : null });
+  }
+}
 
 export default function* userSaga() {
   yield takeLatest(LOGIN_REQUEST, login);
   // yield takeLatest(LOGOUT_REQUEST, logout);
   // yield takeLatest(REGISTER_REQUEST, register);
-  // yield takeLatest(GET_PROFILE_REQUEST, getProfile);
+  yield takeLatest(GET_PROFILE_REQUEST, getProfile);
 }

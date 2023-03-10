@@ -1,7 +1,17 @@
 import {useState} from "react";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import {loginRequest} from './../../../redux/auth/action'
+import {useDispatch} from "react-redux";
+
+const dataExampleLogin = {
+  username: 'admin',
+  email: 'admin@gmail.com'
+}
+
 function Login() {
+
+  const dispatch = useDispatch();
 
   const [dataForm, setDataForm] = useState({
     username : '',
@@ -10,24 +20,17 @@ function Login() {
 
   const [modalValidate, setModalValidate] = useState(false);
 
-
-
   const handleClose = () => {
     setModalValidate(false)
   }
 
   const onSubmitForm = (e) =>{
-    console.log(4332432)
     e.preventDefault();
     if(dataForm.username == 'admin' && dataForm.password == '123456' ){
-      console.log('da vao')
+      dispatch(loginRequest(dataExampleLogin))
       return;
     }
-
-    console.log(23123)
-
     setModalValidate(!modalValidate);
-    //validate
   }
 
   return (

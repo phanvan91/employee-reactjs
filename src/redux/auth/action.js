@@ -17,9 +17,9 @@ export const registerRequest = user => ({
   payload: user
 });
 
-export const getProfileRequest = user => ({
+export const getProfileRequest = payload => ({
   type: GET_PROFILE_REQUEST,
-  payload: user
+  payload
 });
 
 export const logoutRequest = () => ({

@@ -1,13 +1,41 @@
-import { Fragment } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { route } from 'routes';
-
-
-
-
-
-
+import {Fragment, useState, useEffect} from 'react';
+import { Trash } from 'react-bootstrap-icons';
 function List () {
+	const [dataList, setDataList] = useState([]);
+	useEffect(() => {
+		if(localStorage.getItem('data')){
+			let data = JSON.parse(localStorage.getItem('data'));
+			setDataList(data);
+		}
+	}, []);
+
+	const deleteData = (dataList,index) => {
+		var filtered = dataList.filter(function(value, i, arr){
+			return i != index;
+		});
+		if(filtered.length){
+			localStorage.setItem('data',JSON.stringify(filtered))
+		}else{
+			localStorage.removeItem('data');
+		}
+		setDataList(filtered);
+	}
+
+	const element = dataList.map((item,index)=>{
+		return (
+			<tr key={index}>
+				<th scope="row">{index + 1}</th>
+				<td>{item.name}</td>
+				<td>{item.email}</td>
+				<td>{item.age}</td>
+				<td style={{cursor: 'pointer'}}>
+					<Trash
+						onClick={()=> deleteData(dataList,index)}
+					/>
+				</td>
+			</tr>
+		)
+	})
 
 	return <Fragment>
 		<div>
@@ -18,26 +46,11 @@ function List () {
 					<th scope="col">Name</th>
 					<th scope="col">Email</th>
 					<th scope="col">Age</th>
+					<th scope="col">Delete</th>
 				</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<th scope="row">1</th>
-						<td>Mark</td>
-						<td>Otto</td>
-						<td>@mdo</td>
-					</tr>
-					<tr>
-						<th scope="row">2</th>
-						<td>Jacob</td>
-						<td>Thornton</td>
-						<td>@fat</td>
-					</tr>
-					<tr>
-						<th scope="row">3</th>
-						<td colSpan="2">Larry the Bird</td>
-						<td>@twitter</td>
-					</tr>
+				{dataList.length ? element : <tr className={'text-center'}><td colSpan="5">No Data</td></tr>}
 				</tbody>
 			</table>
 		</div>

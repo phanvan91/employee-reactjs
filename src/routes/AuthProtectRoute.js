@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Navigate } from 'react-router-dom';
 import { AppPaths } from 'routes';
 import PageNotFound from 'components/Error/404';
-import { useIsLogin, useUser } from 'hooks/auth';
+import { useIsLogin } from 'hooks/auth';
 // import { hasRole } from 'utils/entrust/hasRole';
 
 // ----------------------------------------------------------------------
@@ -17,7 +17,6 @@ AuthProtectRoute.propTypes = {
 
 function AuthProtectRoute({ children, role }) {
   const [, isLogin] = useIsLogin();
-  const [, user] = useUser();
 
   if (!isLogin) {
     return <Navigate to={AppPaths.login} />;
